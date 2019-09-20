@@ -1,5 +1,7 @@
+from builtins import str  # remove this once Py2 is dropped
 import json
 import os
+
 
 from ._version import get_versions
 __version__ = get_versions()['version']
@@ -17,6 +19,11 @@ for vendor in vendors:
         if all((ev in THISENV for ev in vendor_env)):
             ENVINFO = vendor
             break
+    elif isinstance(vendor_env, dict):
+        for ev, val in vendor_env.items():
+            if ev in THISENV and THISENV[ev] == val:
+                ENVINFO = vendor
+                break
     elif isinstance(vendor_env, str):
         if vendor.get('env') in THISENV:
             ENVINFO = vendor
