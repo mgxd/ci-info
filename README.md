@@ -1,5 +1,8 @@
 # ci-info
 
+[![PyPI version](https://badge.fury.io/py/ci-info.svg)](https://badge.fury.io/py/ci-info)
+[![Build Status](https://travis-ci.org/mgxd/ci-info.svg?branch=master)](https://travis-ci.org/mgxd/ci-info)
+
 A Python implementation of [watson/ci-info](https://github.com/watson/ci-info).
 Get details about the current Continuous Integration environment.
 
