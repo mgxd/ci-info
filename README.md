@@ -1,7 +1,7 @@
 # ci-info
 
-Get details about the current Continuous Integration environment, now in Python.
-Adapted from [watson/ci-info](https://github.com/watson/ci-info)
+A Python implementation of [watson/ci-info](https://github.com/watson/ci-info).
+Get details about the current Continuous Integration environment.
 
 Please [open an issue](https://github.com/mgxd/ci-info/issues/new)
 if your CI server isn't properly detected :)
@@ -48,6 +48,10 @@ Officially supported CI servers:
 
 ```python
 import ci
+if ci.is_ci():
+    print(ci.name())
+
+"My CI Name"
 ```
 
 
@@ -79,7 +83,7 @@ not supported for the current CI server, the value will be `None`.
 
 ### `ci.info()`
 
-A dictionary of all above values in key/value pairs.
+Returns a dictionary of all above values in key/value pairs.
 
 ## License
 
