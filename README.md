@@ -40,7 +40,7 @@ Officially supported CI servers:
 | [Semaphore](https://semaphoreci.com) | ✅ |
 | [Shippable](https://www.shippable.com/) | ✅ |
 | [Solano CI](https://www.solanolabs.com/) | ✅ |
-| [Strider CD](https://strider-cd.github.io/) 🚫 |
+| [Strider CD](https://strider-cd.github.io/) | 🚫 |
 | [TaskCluster](http://docs.taskcluster.net) | 🚫 |
 | [TeamCity](https://www.jetbrains.com/teamcity/) by JetBrains | 🚫 |
 | [Travis CI](http://travis-ci.org) | ✅ |
