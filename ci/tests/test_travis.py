@@ -14,7 +14,7 @@ def test_travis(tmpdir):
     assert ci.is_ci() is True
     assert ci.is_pr() == IS_REAL_PR
 
-    assert ci.info == {
+    assert ci.info() == {
         "name": "Travis CI",
         "is_ci": True,
         "is_pr": IS_REAL_PR
