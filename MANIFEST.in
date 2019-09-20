@@ -1,2 +1,3 @@
 include versioneer.py
 include ci/_version.py
+include ci/vendors.json
