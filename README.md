@@ -14,8 +14,8 @@ if your CI server isn't properly detected :)
 
 Officially supported CI servers:
 
-| Name | Constant | isPR |
-|------|----------|------|
+| Name | is PR |
+|------|------|
 | [AWS CodeBuild](https://aws.amazon.com/codebuild/) | 🚫 |
 | [AppVeyor](http://www.appveyor.com) | ✅ |
 | [Azure Pipelines](https://azure.microsoft.com/en-us/services/devops/pipelines/) | ✅ |
