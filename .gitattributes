@@ -1,1 +1,1 @@
-ci/_version.py export-subst
+ci_info/_version.py export-subst
