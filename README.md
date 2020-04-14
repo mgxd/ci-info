@@ -55,9 +55,9 @@ pip install ci-info
 ## Usage
 
 ```python
-import ci
-if ci.is_ci():
-    print(ci.name())
+import ci_info
+if ci_info.is_ci():
+    print(ci_info.name())
 
 "My CI Name"
 ```
@@ -65,7 +65,7 @@ if ci.is_ci():
 
 ## API
 
-### `ci.name()`
+### `ci_info.name()`
 
 Returns a string containing name of the CI server the code is running on.
 If CI server is not detected, it returns `None`.
@@ -73,23 +73,23 @@ If CI server is not detected, it returns `None`.
 Don't depend on the value of this string not to change for a specific
 vendor.
 
-### `ci.is_ci()`
+### `ci_info.is_ci()`
 
 Returns a boolean. Will be `True` if the code is running on a CI server,
 otherwise `False`.
 
-Some CI servers not listed here might still trigger the `ci.is_ci()`
+Some CI servers not listed here might still trigger the `ci_info.is_ci()`
 boolean to be set to `True` if they use certain vendor neutral
-environment variables. In those cases `ci.name()` will be `None` and no
+environment variables. In those cases `ci_info.name()` will be `None` and no
 vendor specific boolean will be set to `True`.
 
-### `ci.is_pr()`
+### `ci_info.is_pr()`
 
 Returns a boolean if PR detection is supported for the current CI server. Will
 be `True` if a PR is being tested, otherwise `False`. If PR detection is
 not supported for the current CI server, the value will be `None`.
 
-### `ci.info()`
+### `ci_info.info()`
 
 Returns a dictionary of all above values in key/value pairs.
 

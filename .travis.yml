@@ -10,4 +10,4 @@ install:
   - pip install -e .[test]
 
 script:
-  - pytest -v --doctest-modules ci/tests/test_travis.py
+  - pytest -v --doctest-modules ci_info/tests/test_travis.py
