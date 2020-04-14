@@ -1,0 +1,60 @@
+version: 2
+jobs:
+  tests:
+    docker:
+      - image: circleci/python:3.7.6
+    working_directory: /tmp/src/ci-info
+    steps:
+      - checkout
+      - run:
+          name: Prepare environment
+          command: |
+            python -m venv /tmp/venv
+            source /tmp/venv/bin/activate
+            pip install -U pip
+            pip install pytest "setuptools>=42.0" wheel twine
+      - run:
+          name: Test circle
+          command: |
+            source /tmp/venv/bin/activate
+            pytest -v ci_info/tests/test_circle.py
+      - run:
+          name: Clean directory
+          command: |
+            rm -rf __pycache__/ .pytest_cache/ ci_info/__pycache__ ci_info/tests/__pycache__
+      - run:
+          name: Test packaging
+          command: |
+            source /tmp/venv/bin/activate
+            python setup.py sdist bdist_wheel
+            twine check dist/*
+  deploy_pypi:
+    docker:
+      - image: circleci/python:3.7.6
+    working_directory: /tmp/src/ci-info
+    steps:
+      - attach_workspace:
+          at: /tmp
+      - checkout
+      - run:
+          name: Deploy to PyPi
+          command: |
+            source /tmp/venv/bin/activate
+            pip install "setuptools>=42.0" wheel twine
+            python setup.py sdist bdist_wheel
+            twine check dist/*
+            twine upload dist/*
+
+workflows:
+  version: 2
+  build_test_deploy:
+    jobs:
+      - tests
+      - deploy_pypi:
+          requires:
+            - tests
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /.*/
