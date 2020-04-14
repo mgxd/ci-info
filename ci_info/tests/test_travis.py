@@ -1,14 +1,12 @@
+"""Test should only pass in travis-ci environment"""
 import os
-import pytest
+import ci_info
 
-IS_TRAVIS = os.environ.get("TRAVIS") == "true"
-IS_REAL_PR = bool(
-    os.environ.get("TRAVIS_PULL_REQUEST") and
-    os.environ.get("TRAVIS_PULL_REQUEST") != "false"
-)
-@pytest.mark.skipif(not IS_TRAVIS, reason="Requires travis build environment")
 def test_travis(tmpdir):
-    import ci_info
+    IS_REAL_PR = bool(
+        os.getenv("TRAVIS_PULL_REQUEST") and
+        os.getenv("TRAVIS_PULL_REQUEST") != "false"
+    )
 
     assert ci_info.name() == "Travis CI"
     assert ci_info.is_ci() is True
