@@ -1,3 +1,4 @@
 include versioneer.py
 include ci_info/_version.py
 include ci_info/vendors.json
+include tests
