@@ -38,29 +38,30 @@ def _detect_env(env=None):
     return {}
 
 
-def name(_env=None):
+def name(env=None):
     """
     Returns a string containing name of the CI server the code is running on.
     If CI server is not detected, returns None.
     """
-    return _detect_env(_env).get("name")
+    return _detect_env(env).get("name")
 
 
-def is_ci(_env=None):
+def is_ci(env=None):
     """
     Returns a boolean. Will be `True` if the code is running on a CI server,
     otherwise `False`.
     """
-    return bool(name(_env))
+    return bool(name(env))
 
 
-def is_pr(_env=None):
+def is_pr(env=None):
     """
     Returns a boolean if PR detection is supported for the current CI server.
     Will be `True` if a PR is being tested, otherwise `False`. If PR detection
     is not supported for the current CI server, the value will be `None`.
     """
-    env = _env or os.environ
+    if env is None:
+        env = os.environ
     vendor = _detect_env(env)
 
     vpr = vendor.get("pr")
@@ -92,10 +93,10 @@ def is_pr(_env=None):
     return None
 
 
-def info(_env=None):
+def info(env=None):
     """Return a dictionary with all info: name, is_ci, is_pr."""
     return {
-        "name": name(_env),
-        "is_ci": is_ci(_env),
-        "is_pr": is_pr(_env),
+        "name": name(env),
+        "is_ci": is_ci(env),
+        "is_pr": is_pr(env),
     }
