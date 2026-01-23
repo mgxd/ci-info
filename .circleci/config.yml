@@ -1,56 +1,22 @@
 version: 2.1
+
 jobs:
-  tests:
+  test:
     docker:
-      - image: cimg/python:3.10.5
-    working_directory: /tmp/src/ci-info
+    - image: cimg/python:3.14
     steps:
-      - checkout
-      - run:
-          name: Prepare environment
-          command: |
-            pip install -U pip
-            pip install build twine pytest
-      - run:
-          name: Test circle
-          command: |
-            export PYTHONDONTWRITEBYTECODE=1
-            pytest -v ci_info/tests/test_circle.py
-      - run:
-          name: Test packaging
-          command: |
-            python -m build
-            twine check dist/*
-  deploy_pypi:
-    docker:
-      - image: cimg/python:3.10.5
-    working_directory: /tmp/src/ci-info
-    steps:
-      - attach_workspace:
-          at: /tmp
-      - checkout
-      - run:
-          name: Setup python
-          command: pip install build twine
-      - run:
-          name: Build and check
-          command: |
-            python -m build
-            twine check dist/*
-      - run:
-          name: Upload to PyPI
-          command: twine upload dist/*
+    - checkout
+    - run:
+        name: Install ci-info (+ pytest)
+        command: |
+          uv sync --locked --all-extras --dev
+    - run:
+        name: Run test
+        command: |
+          uv run pytest tests/
 
 workflows:
   version: 2
-  build_test_deploy:
+  test:
     jobs:
-      - tests
-      - deploy_pypi:
-          requires:
-            - tests
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /.*/
+    - test
