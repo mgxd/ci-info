@@ -30,3 +30,6 @@ source = "vcs"
 
 [tool.hatch.build.targets.wheel]
 packages = ["ci_info"]
+
+[tool.hatch.build.targets.sdist]
+exclude = ["tests", "*.pyc", "__pycache__"]
