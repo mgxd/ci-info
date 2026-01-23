@@ -2,95 +2,101 @@ from builtins import str  # remove this once Py2 is dropped
 import json
 import os
 
-
-from . import _version
-__version__ = _version.get_versions()['version']
+try:
+    from ._version import __version__
+except ImportError:
+    __version__ = "0+unknown"
 
 _here = os.path.dirname(__file__)
-with open(os.path.join(_here, 'vendors.json')) as fp:
+with open(os.path.join(_here, "vendors.json")) as fp:
     vendors = json.load(fp)
 
-THISENV = os.environ
-ENVINFO = None
-for vendor in vendors:
-    vendor_env = vendor.get('env')
-    if isinstance(vendor_env, list):
-        if all((ev in THISENV for ev in vendor_env)):
-            ENVINFO = vendor
-            break
-    elif isinstance(vendor_env, dict):
-        for ev, val in vendor_env.items():
-            if ev in THISENV and THISENV[ev] == val:
-                ENVINFO = vendor
-                break
-    elif isinstance(vendor_env, str):
-        if vendor.get('env') in THISENV:
-            ENVINFO = vendor
-            break
 
-if ENVINFO is None:
-    # no matches
-    ENVINFO = {}
+def _detect_env(env=None):
+    if env is None:
+        env = os.environ
+
+    for vendor in vendors:
+        vend = vendor.get("env")
+        if isinstance(vend, str) and vend in env:
+            return vendor
+        if isinstance(vend, list):
+            if all(ev in env for ev in vend):
+                return vendor
+        elif isinstance(vend, dict):
+            if "includes" in vend:
+                # Envvar needs to be present and include some value
+                if vend["env"] in env and vend["includes"] in env[vend["env"]]:
+                    return vendor
+            elif "any" in vend:
+                if any(ev in env for ev in vend["any"]):
+                    return vendor
+            else:
+                for ev, val in vend.items():
+                    if ev in env and env[ev] == val:
+                        return vendor
+    return {}
 
 
-def name():
+def name(env=None):
     """
     Returns a string containing name of the CI server the code is running on.
     If CI server is not detected, returns None.
     """
-    return ENVINFO.get('name')
+    return _detect_env(env).get("name")
 
 
-def is_ci():
+def is_ci(env=None):
     """
     Returns a boolean. Will be `True` if the code is running on a CI server,
     otherwise `False`.
     """
-    return bool(name())
+    return bool(name(env))
 
 
-def is_pr():
+def is_pr(env=None):
     """
     Returns a boolean if PR detection is supported for the current CI server.
     Will be `True` if a PR is being tested, otherwise `False`. If PR detection
     is not supported for the current CI server, the value will be `None`.
     """
-    if ENVINFO.get('pr') is None:
+    if env is None:
+        env = os.environ
+    vendor = _detect_env(env)
+
+    vpr = vendor.get("pr")
+    if vpr is None:
         return
 
-    pr_info = ENVINFO['pr']
-    if isinstance(pr_info, dict):
-        # "pr": { "env": "BUILDKITE_PULL_REQUEST", "ne": "false" }
-        if pr_info.get('env'):
-            if (
-                pr_info['env'] in THISENV and
-                THISENV[pr_info['env']] != pr_info['ne']
-            ):
-                return True
-            return False
-        # "pr": { "any": ["ghprbPullId", "CHANGE_ID"] }
-        elif pr_info.get('any'):
-            for ev in pr_info['any']:
-                if THISENV.get(ev):
+    if isinstance(vpr, str):
+        return bool(env.get(vpr))
+    if isinstance(vpr, dict):
+        if "env" in vpr:
+            # Envvar is not equal to
+            if "ne" in vpr:
+                return bool(env.get(vpr["env"])) and env.get(vpr["env"]) != vpr["ne"]
+            # Envvar is one of a set of values
+            elif "any" in vpr:
+                return env.get(vpr["env"]) in vpr["any"]
+        # Envvar is one of a set of values
+        elif "any" in vpr:
+            for k in vpr["any"]:
+                if env.get(k):
                     return True
             return False
-        # "pr": { "DRONE_BUILD_EVENT": "pull_request" }
+        # Specific value(s)
         else:
-            for ev, val in pr_info.items():
-                if THISENV.get(ev) != val:
+            for k, v in vpr.items():
+                if env.get(k) != v:
                     return False
             return True
-
-    elif isinstance(ENVINFO['pr'], str):
-        return bool(THISENV.get(ENVINFO['pr']))
+    return None
 
 
-def info():
-    """
-    A dictionary of all other methods in key/value pairs.
-    """
+def info(env=None):
+    """Return a dictionary with all info: name, is_ci, is_pr."""
     return {
-        'name': name(),
-        'is_ci': is_ci(),
-        'is_pr': is_pr(),
+        "name": name(env),
+        "is_ci": is_ci(env),
+        "is_pr": is_pr(env),
     }

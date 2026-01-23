@@ -1,31 +1,84 @@
-name: GitHub Actions test
+name: Build Test and Publish
 
 on:
   push:
     branches:
-      - master
+    - master
     tags:
-      - '*'
+    - '*'
   pull_request:
     branches:
-      - master
+    - master
+  workflow_dispatch:
 
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 jobs:
-  tests:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v6
+      with:
+        fetch-depth: 0
+    - name: Install the latest version of uv
+      uses: astral-sh/setup-uv@v7
+      with:
+        python-version: 3
+    - name: Build
+    - run: uv build
+    - name: Upload sdist and wheel artifacts
+      uses: actions/upload-artifact@v6
+      with:
+        name: dist
+        path: dist/
+
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.7, 3.8, 3.9, "3.10"]
+        python:
+        - "3.9"
+        - "3.10"
+        - "3.11"
+        - "3.12"
+        - "3.13"
+        - "3.14"
+        - "3.15-dev"
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
+    - uses: actions/checkout@v6
+    - name: Install the latest version of uv
+      uses: astral-sh/setup-uv@v7
       with:
-        python-version: ${{ matrix.python-version }}
-    - name: Check python version and install pytest
-      run: |
-        python --version
-        python -m pip install -U pytest
-    - name: Run GH-specific test
-      run: python -m pytest -sv --doctest-modules ci_info/tests/test_gha.py
+        python-version: ${{ matrix.python }}
+    - name: Install ci-info
+      run: uv sync --all-extras --dev
+    - name: Test ci-info
+      run: uv run pytest tests/
+
+  publish:
+    needs: [ build, test ]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+    environment:
+      name: pypi
+      url: https://pypi.org/p/ci-info/
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+    - uses: actions/checkout@v6
+    - uses: actions/download-artifact@v3
+      with:
+        name: dist
+    - name: Distribute to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
