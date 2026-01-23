@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
 
 [project]
@@ -16,7 +16,7 @@ urls = { Homepage = "https://github.com/mgxd/ci-info" }
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT",
+    "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
 ]
 
@@ -30,4 +30,3 @@ source = "vcs"
 
 [tool.hatch.build.targets.wheel]
 packages = ["ci_info"]
-exclude = ["tests", "ci_info/tests"]
