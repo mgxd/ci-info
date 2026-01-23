@@ -3,13 +3,14 @@ name: Build Test and Publish
 on:
   push:
     branches:
-      - master
+    - master
     tags:
-      - '*'
+    - '*'
   pull_request:
     branches:
-      - master
+    - master
   workflow_dispatch:
+
 
 defaults:
   run:
@@ -26,33 +27,33 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
-      - name: Install the latest version of uv
-        uses: astral-sh/setup-uv@v7
-        with:
-          python-version: 3
-      - name: Build
-      - run: uv build
-      - name: Upload sdist and wheel artifacts
-        uses: actions/upload-artifact@v6
-        with:
-          name: dist
-          path: dist/
+    - uses: actions/checkout@v6
+      with:
+        fetch-depth: 0
+    - name: Install the latest version of uv
+      uses: astral-sh/setup-uv@v7
+      with:
+        python-version: 3
+    - name: Build
+    - run: uv build
+    - name: Upload sdist and wheel artifacts
+      uses: actions/upload-artifact@v6
+      with:
+        name: dist
+        path: dist/
 
   test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python:
-          - "3.9"
-          - "3.10"
-          - "3.11"
-          - "3.12"
-          - "3.13"
-          - "3.14"
-          - "3.15-dev"
+        - "3.9"
+        - "3.10"
+        - "3.11"
+        - "3.12"
+        - "3.13"
+        - "3.14"
+        - "3.15-dev"
     steps:
     - uses: actions/checkout@v6
     - name: Install the latest version of uv
@@ -60,12 +61,12 @@ jobs:
       with:
         python-version: ${{ matrix.python }}
     - name: Install ci-info
-      run: uv sync --locked --all-extras --dev
+      run: uv sync --all-extras --dev
     - name: Test ci-info
       run: uv run pytest tests/
 
   publish:
-    needs: [build, test]
+    needs: [ build, test ]
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
     environment:
@@ -75,9 +76,9 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/download-artifact@v3
-        with:
-          name: dist
-      - name: Distribute to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
+    - uses: actions/checkout@v6
+    - uses: actions/download-artifact@v3
+      with:
+        name: dist
+    - name: Distribute to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1

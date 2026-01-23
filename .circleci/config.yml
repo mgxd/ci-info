@@ -9,7 +9,7 @@ jobs:
     - run:
         name: Install ci-info (+ pytest)
         command: |
-          uv sync --locked --all-extras --dev
+          uv sync --all-extras --dev
     - run:
         name: Run test
         command: |
