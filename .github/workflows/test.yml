@@ -35,7 +35,7 @@ jobs:
       with:
         python-version: 3
     - name: Build
-    - run: uv build
+      run: uv build
     - name: Upload sdist and wheel artifacts
       uses: actions/upload-artifact@v6
       with:
