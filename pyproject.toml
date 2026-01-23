@@ -27,6 +27,7 @@ all = ["pytest"]
 
 [tool.hatch.version]
 source = "vcs"
+path = "ci_info/_version.py"
 
 [tool.hatch.build.targets.wheel]
 packages = ["ci_info"]

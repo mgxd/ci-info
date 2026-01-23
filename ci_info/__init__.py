@@ -2,9 +2,10 @@ from builtins import str  # remove this once Py2 is dropped
 import json
 import os
 
-
-from . import _version
-__version__ = _version.get_versions()['version']
+try:
+    from ._version import __version__
+except ImportError:
+    __version__ = '0+unknown'
 
 _here = os.path.dirname(__file__)
 with open(os.path.join(_here, 'vendors.json')) as fp:
