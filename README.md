@@ -16,10 +16,11 @@ Officially supported CI servers:
 
 | Name                                                                            | isPR |
 | ------------------------------------------------------------------------------- | ---- |
-| [AWS CodeBuild](https://aws.amazon.com/codebuild/)                              | 🚫   |
+| [Agola CI](https://agola.io/)                                                   | ✅   |
+| [Appcircle](https://appcircle.io/)                                              | ✅   |
 | [AppVeyor](http://www.appveyor.com)                                             | ✅   |
+| [AWS CodeBuild](https://aws.amazon.com/codebuild/)                              | ✅   |
 | [Azure Pipelines](https://azure.microsoft.com/en-us/services/devops/pipelines/) | ✅   |
-| [Appcircle](https://appcircle.io/)                                              | 🚫   |
 | [Bamboo](https://www.atlassian.com/software/bamboo) by Atlassian                | 🚫   |
 | [Bitbucket Pipelines](https://bitbucket.org/product/features/pipelines)         | ✅   |
 | [Bitrise](https://www.bitrise.io/)                                              | ✅   |
@@ -27,32 +28,45 @@ Officially supported CI servers:
 | [Buildkite](https://buildkite.com)                                              | ✅   |
 | [CircleCI](http://circleci.com)                                                 | ✅   |
 | [Cirrus CI](https://cirrus-ci.org)                                              | ✅   |
+| [Cloudflare Pages](https://pages.cloudflare.com/)                               | 🚫   |
+| [Cloudflare Workers](https://pages.cloudflare.com/)                             | 🚫   |
 | [Codefresh](https://codefresh.io/)                                              | ✅   |
 | [Codeship](https://codeship.com)                                                | 🚫   |
 | [Drone](https://drone.io)                                                       | ✅   |
 | [dsari](https://github.com/rfinnie/dsari)                                       | 🚫   |
+| [Earthly CI](https://earthly.dev/)                                              | 🚫   |
 | [Expo Application Services](https://expo.dev/eas)                               | 🚫   |
+| [Gerrit CI](https://www.gerritcodereview.com)                                   | 🚫   |
 | [GitHub Actions](https://github.com/features/actions/)                          | ✅   |
 | [GitLab CI](https://about.gitlab.com/gitlab-ci/)                                | ✅   |
+| [Gitea Actions](https://about.gitea.com/)                                       | 🚫   |
 | [GoCD](https://www.go.cd/)                                                      | 🚫   |
+| [Google Cloud Build](https://cloud.google.com/build)                            | 🚫   |
+| [Harness CI](https://www.harness.io/products/continuous-integration)            | 🚫   |
+| [Heroku](https://www.heroku.com)                                                | 🚫   |
 | [Hudson](http://hudson-ci.org)                                                  | 🚫   |
 | [Jenkins CI](https://jenkins-ci.org)                                            | ✅   |
 | [LayerCI](https://layerci.com/)                                                 | ✅   |
 | [Magnum CI](https://magnum-ci.com)                                              | 🚫   |
 | [Netlify CI](https://www.netlify.com/)                                          | ✅   |
 | [Nevercode](http://nevercode.io/)                                               | ✅   |
+| [Prow](https://docs.prow.k8s.io/)                                               | 🚫   |
+| [ReleaseHub](https://releasehub.com/)                                           | 🚫   |
 | [Render](https://render.com/)                                                   | ✅   |
 | [Sail CI](https://sail.ci/)                                                     | ✅   |
 | [Screwdriver](https://screwdriver.cd/)                                          | ✅   |
 | [Semaphore](https://semaphoreci.com)                                            | ✅   |
 | [Shippable](https://www.shippable.com/)                                         | ✅   |
 | [Solano CI](https://www.solanolabs.com/)                                        | ✅   |
+| [Sourcehut](https://sourcehut.org/)                                             | 🚫   |
 | [Strider CD](https://strider-cd.github.io/)                                     | 🚫   |
 | [TaskCluster](http://docs.taskcluster.net)                                      | 🚫   |
 | [TeamCity](https://www.jetbrains.com/teamcity/) by JetBrains                    | 🚫   |
 | [Travis CI](http://travis-ci.org)                                               | ✅   |
-| [Vercel](https://vercel.com/)                                                   | 🚫   |
+| [Vela](https://go-vela.github.io/docs/)                                         | ✅   |
+| [Vercel](https://vercel.com/)                                                   | ✅   |
 | [Visual Studio App Center](https://appcenter.ms/)                               | 🚫   |
+| [Woodpecker](https://woodpecker-ci.org/)                                        | ✅   |
 
 
 ## Installation
