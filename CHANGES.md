@@ -1,3 +1,11 @@
+0.4.0 (February 2, 2026)
+========================
+- Enable is_pr detection for AWS CodeBuild, Appcircle, and Vercel
+- Add new CI providers:
+    Agola CI, Cloudflare Pages, Cloudflare Workers, Earthly CI,
+    Gerrit CI, Gitea Actions, Google Cloud Build, Harness CI,
+    Heroku, Prow, ReleaseHub, Sourcehut, Vela, and Woodpecker
+
 0.3.0 (July 27, 2022)
 =====================
 Adds CI detection for:
