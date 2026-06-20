@@ -27,7 +27,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
       with:
         fetch-depth: 0
     - name: Install the latest version of uv
@@ -54,7 +54,7 @@ jobs:
         - "3.14"
         - "3.15"
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
     - name: Install the latest version of uv
       uses: astral-sh/setup-uv@v7
       with:
@@ -75,7 +75,7 @@ jobs:
       id-token: write
       contents: read
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
     - uses: actions/download-artifact@v8
       with:
         name: dist
